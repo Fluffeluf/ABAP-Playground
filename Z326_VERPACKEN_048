@@ -1,0 +1,51 @@
+*&---------------------------------------------------------------------*
+* Optimales verpacken von Kartons
+REPORT z326_verpacken_048.
+
+* Eingabefeld für das gesamtvolumen generieren
+PARAMETERS: g_gesvol TYPE i.
+
+* Variablen deklarieren
+DATA: g_k1      TYPE p DECIMALS 2,
+      g_k2      TYPE p DECIMALS 2,
+      g_k3      TYPE p DECIMALS 2,
+      g_k4      TYPE p DECIMALS 2,
+      g_k5      TYPE p DECIMALS 2,
+      g_ausgabe TYPE p DECIMALS 2.
+
+* Verarbeitung starten
+START-OF-SELECTION.
+* Ausgabe Variable
+  g_ausgabe = g_gesvol.
+
+* Karton 1 = das gesamtvolumen div 100
+  g_k1 = g_gesvol DIV 100.
+* Das gesamtvolumen das übrig bleibt erhält man durch mod 100
+  g_gesvol = g_gesvol MOD 100.
+
+* Karton 2 = das gesamtvolumen div 50
+  g_k2 = g_gesvol DIV 50.
+* Das gesamtvolumen das übrig bleibt erhält man durch mod 50
+  g_gesvol = g_gesvol MOD 50.
+
+* Karton 3 = das gesamtvolumen div 20
+  g_k3 = g_gesvol DIV 20.
+* Das gesamtvolumen das übrig bleibt erhält man durch mod 20
+  g_gesvol = g_gesvol MOD 20.
+
+* Karton 4 = das gesamtvolumen div 10
+  g_k4 = g_gesvol DIV 10.
+* Das gesamtvolumen das übrig bleibt erhält man durch mod 10
+  g_gesvol = g_gesvol MOD 10.
+
+* Wenn gesamtvolumen am Ende immer noch größer als 0 dann Karton 5 1x, sonst keinen
+  IF g_gesvol > 0.
+    g_k5 = 1.
+  ELSE.
+    g_k5 = 0.
+  ENDIF.
+
+* Ausgabe
+  WRITE: 'Für das Volumen von ', g_ausgabe, 'Liter benötigt man folgende Kartons: '.
+  WRITE: / 'Karton 1: ', g_k1, / 'Karton 2: ', g_k2,  / 'Karton 3: ', g_k3,
+         / 'Karton 4: ', g_k4,  / 'Karton 5: ', g_k5.
